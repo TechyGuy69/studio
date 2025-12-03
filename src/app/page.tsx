@@ -247,7 +247,7 @@ export default function Home() {
                     <div>
                       <h4 className="font-bold">Email</h4>
                       <p className="text-muted-foreground">
-                        Send us your query anytime!
+                        abanerje02@gmail.com
                       </p>
                     </div>
                   </div>

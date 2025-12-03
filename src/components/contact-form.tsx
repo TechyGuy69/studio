@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
+import { sendContactEmail } from "@/ai/flows/send-contact-email-flow";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -46,13 +47,26 @@ export function ContactForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for your message. We will get back to you shortly.",
-    });
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await sendContactEmail(values);
+      if (response.success) {
+        toast({
+          title: "Message Sent!",
+          description: "Thank you for your message. We will get back to you shortly.",
+        });
+        form.reset();
+      } else {
+        throw new Error(response.error || "Unknown error occurred");
+      }
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem sending your message. Please try again later.",
+      });
+    }
   }
 
   return (
