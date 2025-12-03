@@ -11,6 +11,7 @@ import {
   Laptop,
   Mail,
   MapPin,
+  Phone,
   Sigma,
   Users,
   Presentation,
@@ -248,12 +249,21 @@ export default function Home() {
                       </a>
                     </div>
                   </div>
-                  <div className="flex items-start space-x-4">
+                  <div className="flex items-start space-x-4 mb-6">
                     <Mail className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
                     <div>
                       <h4 className="font-bold">Email</h4>
                       <a href="mailto:abanerje02@gmail.com" className="text-muted-foreground transition-colors hover:text-primary">
                         abanerje02@gmail.com
+                      </a>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <Phone className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
+                    <div>
+                      <h4 className="font-bold">Phone</h4>
+                      <a href="tel:+911234567890" className="text-muted-foreground transition-colors hover:text-primary">
+                        +91 12345 67890
                       </a>
                     </div>
                   </div>
@@ -266,5 +276,3 @@ export default function Home() {
     </>
   );
 }
-
-    
