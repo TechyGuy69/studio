@@ -246,9 +246,9 @@ export default function Home() {
                     <Mail className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
                     <div>
                       <h4 className="font-bold">Email</h4>
-                      <p className="text-muted-foreground">
+                      <a href="mailto:abanerje02@gmail.com" className="text-muted-foreground transition-colors hover:text-primary">
                         abanerje02@gmail.com
-                      </p>
+                      </a>
                     </div>
                   </div>
                 </div>
