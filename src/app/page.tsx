@@ -112,7 +112,7 @@ export default function Home() {
           />
         )}
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white">
+        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white px-4">
           <h1 className="font-headline text-5xl md:text-7xl drop-shadow-md">
             Unlock Your Potential in Science
           </h1>
@@ -199,7 +199,7 @@ export default function Home() {
               We provide a complete learning ecosystem for our students.
             </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {benefits.map((benefit) => (
               <div key={benefit.title} className="flex items-start space-x-4">
                 <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -230,24 +230,26 @@ export default function Home() {
               </Card>
             </div>
             <div className="lg:col-span-2">
-              <div className="space-y-8">
-                <h3 className="font-headline text-2xl">Contact Information</h3>
-                <div className="flex items-start space-x-4">
-                  <MapPin className="h-6 w-6 flex-shrink-0 text-primary" />
-                  <div>
-                    <h4 className="font-bold">Address</h4>
-                    <p className="text-muted-foreground">
-                      Block-A, Shiva Appartment, 12, Dunlop, Narendra Nagar, Beehive Garden, Belghoria, Kolkata, West Bengal 700056
-                    </p>
+              <div className="space-y-8 flex flex-col justify-center h-full">
+                <div>
+                  <h3 className="font-headline text-2xl mb-4">Contact Information</h3>
+                  <div className="flex items-start space-x-4 mb-6">
+                    <MapPin className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
+                    <div>
+                      <h4 className="font-bold">Address</h4>
+                      <p className="text-muted-foreground">
+                        Block-A, Shiva Appartment, 12, Dunlop, Narendra Nagar, Beehive Garden, Belghoria, Kolkata, West Bengal 700056
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <Mail className="h-6 w-6 flex-shrink-0 text-primary" />
-                  <div>
-                    <h4 className="font-bold">Email</h4>
-                    <p className="text-muted-foreground">
-                      Send us your query anytime!
-                    </p>
+                  <div className="flex items-start space-x-4">
+                    <Mail className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
+                    <div>
+                      <h4 className="font-bold">Email</h4>
+                      <p className="text-muted-foreground">
+                        Send us your query anytime!
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
