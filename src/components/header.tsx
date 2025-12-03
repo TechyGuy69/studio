@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -52,22 +52,14 @@ export function Header() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px]">
+            <SheetContent side="left" className="w-[300px] p-0">
               <div className="flex h-full flex-col">
-                <div className="flex items-center justify-between border-b pb-4">
+                <div className="border-b p-6">
                   <Link href="/" onClick={() => setIsOpen(false)}>
                     <Logo />
                   </Link>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <X className="h-5 w-5" />
-                    <span className="sr-only">Close menu</span>
-                  </Button>
                 </div>
-                <div className="mt-6 flex flex-col gap-4 font-body">
+                <div className="flex flex-col gap-4 p-6 font-body">
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}

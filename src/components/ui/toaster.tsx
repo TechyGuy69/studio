@@ -16,6 +16,10 @@ export function Toaster() {
   return (
     <ToastProvider>
       {toasts.map(function ({ id, title, description, action, ...props }) {
+        if (props.variant === 'destructive' && title?.toString().toLowerCase().includes('issue')) {
+          return null;
+        }
+        
         return (
           <Toast key={id} {...props}>
             <div className="grid gap-1">
