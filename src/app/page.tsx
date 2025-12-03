@@ -153,13 +153,14 @@ export default function Home() {
                 {tutorImage && (
                   <Avatar className="h-48 w-48 border-4 border-white shadow-md">
                     <AvatarImage src={tutorImage.imageUrl} alt="Tutor" data-ai-hint={tutorImage.imageHint}/>
-                    <AvatarFallback>ST</AvatarFallback>
+                    <AvatarFallback>AB</AvatarFallback>
                   </Avatar>
                 )}
               </div>
               <div className="md:col-span-2 p-8 md:p-12">
                 <h2 className="font-headline text-4xl text-primary">About the Tutor</h2>
-                <p className="mt-4 text-muted-foreground text-lg">
+                <p className="mt-4 text-muted-foreground text-lg font-bold">Aditya Banerjee</p>
+                <p className="mt-2 text-muted-foreground">
                   An experienced and passionate Science Tutor dedicated to fostering a love for learning.
                 </p>
                 <div className="mt-6 space-y-2">
