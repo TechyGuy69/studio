@@ -29,6 +29,24 @@ import { Badge } from "@/components/ui/badge";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ContactForm } from "@/components/contact-form";
 
+const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+  </svg>
+);
+
+
 const heroImage = PlaceHolderImages.find((img) => img.id === "hero-image");
 const tutorImage = PlaceHolderImages.find((img) => img.id === "tutor-profile");
 
@@ -235,36 +253,50 @@ export default function Home() {
               <div className="space-y-8 flex flex-col justify-center h-full">
                 <div>
                   <h3 className="font-headline text-2xl mb-4">Contact Information</h3>
-                  <div className="flex items-start space-x-4 mb-6">
-                    <MapPin className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
-                    <div>
-                      <h4 className="font-bold">Address</h4>
-                       <a
-                        href="https://maps.app.goo.gl/9qgU2h4ZVWDeTvBV7"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground transition-colors hover:text-primary not-italic"
-                      >
-                        Block-A, Shiva Appartment, 12, Dunlop, Narendra Nagar, Beehive Garden, Belghoria, Kolkata, West Bengal 700056
-                      </a>
+                  <div className="space-y-6">
+                    <div className="flex items-start space-x-4">
+                      <MapPin className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
+                      <div>
+                        <h4 className="font-bold">Address</h4>
+                         <a
+                          href="https://maps.app.goo.gl/9qgU2h4ZVWDeTvBV7"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground transition-colors hover:text-primary not-italic"
+                        >
+                          Block-A, Shiva Appartment, 12, Dunlop, Narendra Nagar, Beehive Garden, Belghoria, Kolkata, West Bengal 700056
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start space-x-4 mb-6">
-                    <Mail className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
-                    <div>
-                      <h4 className="font-bold">Email</h4>
-                      <a href="mailto:abanerje02@gmail.com" className="text-muted-foreground transition-colors hover:text-primary">
-                        abanerje02@gmail.com
-                      </a>
+                    <div className="flex items-start space-x-4">
+                      <Mail className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
+                      <div>
+                        <h4 className="font-bold">Email</h4>
+                        <a href="mailto:abanerje02@gmail.com" className="text-muted-foreground transition-colors hover:text-primary">
+                          abanerje02@gmail.com
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start space-x-4">
-                    <Phone className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
-                    <div>
-                      <h4 className="font-bold">Phone</h4>
-                      <a href="tel:+911234567890" className="text-muted-foreground transition-colors hover:text-primary">
-                        +91 12345 67890
-                      </a>
+                    <div className="flex items-start space-x-4">
+                      <Phone className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
+                      <div>
+                        <h4 className="font-bold">Phone</h4>
+                        <a href="tel:+917547973733" className="text-muted-foreground transition-colors hover:text-primary block">
+                          +91 75479 73733
+                        </a>
+                        <a href="tel:+919593387016" className="text-muted-foreground transition-colors hover:text-primary block">
+                          +91 95933 87016
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-4">
+                       <WhatsAppIcon className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
+                      <div>
+                        <h4 className="font-bold">WhatsApp</h4>
+                        <a href="https://wa.me/917547973733" target="_blank" rel="noopener noreferrer" className="text-muted-foreground transition-colors hover:text-primary">
+                          +91 75479 73733
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
