@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -237,9 +238,14 @@ export default function Home() {
                     <MapPin className="h-6 w-6 flex-shrink-0 text-primary mt-1" />
                     <div>
                       <h4 className="font-bold">Address</h4>
-                      <p className="text-muted-foreground">
+                       <a
+                        href="https://maps.app.goo.gl/9qgU2h4ZVWDeTvBV7"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground transition-colors hover:text-primary not-italic"
+                      >
                         Block-A, Shiva Appartment, 12, Dunlop, Narendra Nagar, Beehive Garden, Belghoria, Kolkata, West Bengal 700056
-                      </p>
+                      </a>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
@@ -260,3 +266,5 @@ export default function Home() {
     </>
   );
 }
+
+    
