@@ -5,7 +5,12 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Logo } from "./logo";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -53,6 +58,7 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] p-0">
+              <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
               <div className="flex h-full flex-col">
                 <div className="border-b p-6">
                   <Link href="/" onClick={() => setIsOpen(false)}>
