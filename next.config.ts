@@ -42,6 +42,17 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  // START: Add allowedDevOrigins
+  ...(process.env.NODE_ENV === 'development'
+    ? {
+        experimental: {
+          allowedDevOrigins: [
+            'https://6000-firebase-studio-1764742733872.cluster-bg6uurscprhn6qxr6xwtrhvkf6.cloudworkstations.dev',
+          ],
+        },
+      }
+    : {}),
+  // END: Add allowedDevOrigins
 };
 
 export default nextConfig;
