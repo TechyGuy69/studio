@@ -9,7 +9,8 @@ export const BioMyDreamLogoIcon = (props: React.SVGProps<SVGSVGElement>) => (
     strokeLinejoin="round"
     {...props}
   >
-    <path d="M12 2a9.99 9.99 0 0 0-7.12 17.12A10 10 0 1 0 12 2z" />
-    <path d="M12 2a10 10 0 0 1 0 20V2z" />
+    <path d="M12 22c-5 0-7-4-7-10s2-10 7-10c5 0 7 4 7 10s-2 10-7 10z" />
+    <path d="M12 2v20" />
+    <path d="M2 12h20" />
   </svg>
 );
