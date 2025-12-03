@@ -8,9 +8,9 @@
     },
     {
       "id": "tutor-profile",
-      "description": "A professional and friendly portrait of a female teacher in a classroom setting.",
-      "imageUrl": "https://images.unsplash.com/photo-1624824179660-80d32a64a887?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dGVhY2hlciUyMHBvcnRyYWl0fGVufDB8fHx8MTc2NDY5MzgwNXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "teacher portrait"
+      "description": "A portrait of the tutor, Aditya Banerjee.",
+      "imageUrl": "https://storage.googleapis.com/project-os-frontend-bucket/uploads/1719942738275-taj-mahal.jpg",
+      "imageHint": "tutor portrait"
     }
   ]
 }
