@@ -23,7 +23,7 @@ export function Header() {
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <Logo />
         </Link>
-        <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
+        <nav className="hidden items-center space-x-6 text-sm md:flex font-body">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -65,7 +65,7 @@ export function Header() {
                     <span className="sr-only">Close menu</span>
                   </Button>
                 </div>
-                <div className="mt-6 flex flex-col gap-4">
+                <div className="mt-6 flex flex-col gap-4 font-body">
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}
