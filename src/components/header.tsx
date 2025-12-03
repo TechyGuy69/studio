@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Logo } from "./logo";
+import { ThemeToggle } from "./theme-toggle";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -35,6 +36,7 @@ export function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           <Button asChild className="hidden md:inline-flex">
             <Link href="#contact">Contact Us</Link>
           </Button>
