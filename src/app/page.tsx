@@ -56,10 +56,7 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 const heroImage = PlaceHolderImages.find((img) => img.id === "hero-image");
-const tutorImage = {
-  imageUrl: "https://i.ibb.co/gDFvYQW/Whats-App-Image-2024-07-03-at-00-01-23-f25b29f7.jpg",
-  imageHint: "tutor portrait",
-};
+const tutorImage = PlaceHolderImages.find((img) => img.id === "tutor-profile");
 
 
 const courses = [
@@ -261,7 +258,7 @@ export default function Home() {
               <div className="md:col-span-1 flex items-center justify-center p-8 bg-secondary/50">
                 {tutorImage && (
                   <Avatar className="h-48 w-48 border-4 border-white shadow-md">
-                    <AvatarImage src={"https://i.ibb.co/NgBVSBNK/unnamed.png"} alt="Tutor" data-ai-hint={tutorImage.imageHint}/>
+                    <AvatarImage src={tutorImage.imageUrl} alt={tutorImage.description} data-ai-hint={tutorImage.imageHint}/>
                     <AvatarFallback>AB</AvatarFallback>
                   </Avatar>
                 )}
