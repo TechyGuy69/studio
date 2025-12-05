@@ -37,8 +37,8 @@ const sendContactEmailFlow = ai.defineFlow(
       return { success: false, error: 'Server configuration error: Email service is not set up.' };
     }
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const adminEmail = 'banerjeeusnish2@gmail.com'; // Temporarily send to registered email
-    const studentEmail = 'banerjeeusnish2@gmail.com'; // Temporarily send to registered email
+    const adminEmail = 'banerjeeusnish2@gmail.com'; // Send to the registered Resend account
+    const studentEmail = input.email; // Send to the email from the form
 
     // Email to the administrator
     const adminEmailHtml = `
@@ -69,7 +69,7 @@ const sendContactEmailFlow = ai.defineFlow(
     `;
 
     try {
-      // Send email to admin
+       // Send email to admin first
       const adminEmailResponse = await resend.emails.send({
         from: 'onboarding@resend.dev',
         to: adminEmail,
