@@ -9,6 +9,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { Resend } from 'resend';
 
 const ContactFormInputSchema = z.object({
   name: z.string(),
@@ -24,38 +25,14 @@ const SendEmailOutputSchema = z.object({
 });
 export type SendEmailOutput = z.infer<typeof SendEmailOutputSchema>;
 
-const emailSender = ai.defineTool(
-  {
-    name: 'emailSender',
-    description: 'Send an email',
-    inputSchema: z.object({
-      to: z.string(),
-      subject: z.string(),
-      html: z.string(),
-    }),
-    outputSchema: z.void(),
-  },
-  async (input) => {
-    // This is a placeholder. In a real environment, you would use a service
-    // like Nodemailer, SendGrid, etc. to send the email.
-    // The Genkit environment will simulate this for demonstration.
-    console.log('--- Simulating Email Sending ---');
-    console.log(`To: ${input.to}`);
-    console.log(`Subject: ${input.subject}`);
-    console.log('Body (HTML):');
-    console.log(input.html);
-    console.log('-----------------------------');
-  }
-);
-
 const sendContactEmailFlow = ai.defineFlow(
   {
     name: 'sendContactEmailFlow',
     inputSchema: ContactFormInputSchema,
     outputSchema: SendEmailOutputSchema,
-    tools: [emailSender],
   },
   async (input) => {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const recipientEmail = 'abanerje02@gmail.com';
     const emailHtml = `
       <h1>New Contact Form Submission</h1>
@@ -67,10 +44,12 @@ const sendContactEmailFlow = ai.defineFlow(
     `;
 
     try {
-      await emailSender({
+      await resend.emails.send({
+        from: 'BioMyDream <onboarding@resend.dev>',
         to: recipientEmail,
         subject: `New Contact Form Submission: ${input.subject}`,
         html: emailHtml,
+        reply_to: input.email,
       });
 
       return { success: true };
