@@ -82,3 +82,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Update contact section background color */
+#contact {
+  background-color: hsl(var(--background));
+}
+
+.dark #contact {
+   background-color: hsl(var(--background));
+}
+
+#testimonials {
+  background-color: hsl(var(--secondary) / 0.3);
+}
+
+.dark #testimonials {
+  background-color: hsl(var(--secondary) / 0.3);
+}

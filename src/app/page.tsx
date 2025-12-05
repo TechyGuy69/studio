@@ -15,6 +15,7 @@ import {
   Sigma,
   Users,
   Presentation,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -118,6 +119,27 @@ const benefits = [
     title: "Modern Teaching",
     description: "Projector and laptop-based classes for a dynamic learning experience.",
     icon: Presentation,
+  },
+];
+
+const testimonials = [
+  {
+    name: "Rohan Sharma",
+    class: "Class XII, CBSE",
+    quote: "Aditya sir's teaching methods are incredible. He makes complex biology topics so easy to understand. My board exam scores improved dramatically thanks to him!",
+    avatar: "RS",
+  },
+  {
+    name: "Priya Das",
+    class: "Class X, ICSE",
+    quote: "The weekly mock tests were a game-changer for me. I felt so much more confident during my exams. The study materials provided are also top-notch.",
+    avatar: "PD",
+  },
+  {
+    name: "Ankit Ghosh",
+    class: "Class XII, WBCHSE",
+    quote: "I used to struggle with biology, but after joining BioMyDream, it has become my favorite subject. The online classes are very interactive and engaging.",
+    avatar: "AG",
   },
 ];
 
@@ -239,8 +261,46 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
+      <section id="testimonials" className="py-16 sm:py-24">
+        <div className="container">
+          <div className="text-center">
+            <h2 className="font-headline text-4xl md:text-5xl text-primary">What Our Students Say</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+              Real stories from students who have achieved their goals with us.
+            </p>
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="flex flex-col">
+                <CardContent className="flex flex-1 flex-col justify-between p-6">
+                  <div>
+                    <div className="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-5 w-5 fill-current" />
+                      ))}
+                    </div>
+                    <blockquote className="mt-4 text-muted-foreground">
+                      &ldquo;{testimonial.quote}&rdquo;
+                    </blockquote>
+                  </div>
+                  <div className="mt-6 flex items-center gap-4">
+                    <Avatar>
+                      <AvatarFallback>{testimonial.avatar}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-semibold">{testimonial.name}</p>
+                      <p className="text-sm text-muted-foreground">{testimonial.class}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <section id="contact" className="py-16 sm:py-24">
+      <section id="contact" className="py-16 sm:py-24 bg-secondary/30">
         <div className="container">
           <div className="text-center">
             <h2 className="font-headline text-4xl md:text-5xl text-primary">Get in Touch</h2>
