@@ -33,7 +33,7 @@ const sendContactEmailFlow = ai.defineFlow(
   },
   async (input) => {
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const adminEmail = 'banerjeeusnish2@gmail.com';
+    const adminEmail = 'abanerje02@gmail.com';
 
     // Email to the administrator
     const adminEmailHtml = `
@@ -54,7 +54,7 @@ const sendContactEmailFlow = ai.defineFlow(
       <br/>
       <p><strong>Here is a copy of your submission:</strong></p>
       <hr/>
-      <p><strong>Subject:</strong> ${input.subject}</p>
+      <p><strong>Subject:</strong> ${input.subject}</p>p>
       <p><strong>Message:</strong></p>
       <p>${input.message.replace(/\n/g, '<br>')}</p>
       <hr/>
@@ -66,7 +66,7 @@ const sendContactEmailFlow = ai.defineFlow(
     try {
       // Send email to admin
       const adminEmailResponse = await resend.emails.send({
-        from: 'BioMyDream <onboarding@resend.dev>',
+        from: 'BioMyDream <contact@biomydream.update.com>',
         to: adminEmail,
         subject: `New Contact Form Submission: ${input.subject}`,
         html: adminEmailHtml,
@@ -78,8 +78,8 @@ const sendContactEmailFlow = ai.defineFlow(
 
       // Send confirmation email to user
       const userEmailResponse = await resend.emails.send({
-        from: 'BioMyDream <onboarding@resend.dev>',
-        to: adminEmail, // Sending to admin email for testing due to sandbox restrictions
+        from: 'BioMyDream <contact@biomydream.update.com>',
+        to: input.email,
         subject: 'Thank You for Your Inquiry with BioMyDream Academy',
         html: userEmailHtml,
       });
