@@ -1,209 +1,51 @@
 {
   "entities": {
-    "Course": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Course",
-      "type": "object",
-      "description": "Represents a course offered by BioMyDream Academy.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the course."
-        },
-        "subject": {
-          "type": "string",
-          "description": "The subject of the course (e.g., Biology, Math)."
-        },
-        "level": {
-          "type": "string",
-          "description": "The level of the course (e.g., CBSE, ICSE, WBBSE, WBCHSE)."
-        },
-        "tutorId": {
-          "type": "string",
-          "description": "Reference to the Tutor offering this course. (Relationship: Tutor 1:N Course)"
-        }
-      },
-      "required": [
-        "id",
-        "subject",
-        "level",
-        "tutorId"
-      ]
-    },
-    "Tutor": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Tutor",
-      "type": "object",
-      "description": "Represents a tutor at BioMyDream Academy.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the tutor."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the tutor."
-        },
-        "qualifications": {
-          "type": "string",
-          "description": "The qualifications of the tutor (e.g., B.Sc., M.Sc., B.Ed., D.El.Ed.)."
-        },
-        "teachingFields": {
-          "type": "string",
-          "description": "The teaching fields of the tutor (e.g., Science & Math, Biology)."
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "qualifications",
-        "teachingFields"
-      ]
-    },
-    "Student": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Student",
-      "type": "object",
-      "description": "Represents a student at BioMyDream Academy.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the student."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the student."
-        },
-        "email": {
-          "type": "string",
-          "description": "The email address of the student.",
-          "format": "email"
-        },
-        "courseIds": {
-          "type": "array",
-          "description": "References to Courses the student is enrolled in. (Relationship: Student N:N Course)",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "email"
-      ]
-    },
     "Feedback": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Feedback",
       "type": "object",
       "description": "Represents feedback given by a student for a course.",
       "properties": {
-        "id": {
+        "name": {
           "type": "string",
-          "description": "Unique identifier for the feedback entry."
+          "description": "The name of the person leaving feedback."
         },
-        "studentId": {
+        "class": {
           "type": "string",
-          "description": "Reference to the Student who provided the feedback. (Relationship: Student 1:N Feedback)"
+          "description": "The class/grade of the student leaving feedback."
         },
-        "courseId": {
+        "quote": {
           "type": "string",
-          "description": "Reference to the Course the feedback is about. (Relationship: Course 1:N Feedback)"
+          "description": "The feedback message or quote."
         },
         "rating": {
           "type": "number",
-          "description": "The rating given by the student (e.g., 1-5)."
+          "description": "A rating from 1 to 5."
         },
-        "comment": {
+        "createdAt": {
           "type": "string",
-          "description": "The comment provided by the student."
-        },
-        "date": {
-          "type": "string",
-          "description": "The date the feedback was submitted.",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The timestamp when the feedback was submitted."
         }
       },
-      "required": [
-        "id",
-        "studentId",
-        "courseId",
-        "rating",
-        "comment",
-        "date"
-      ]
+      "required": ["name", "class", "quote", "rating", "createdAt"]
     }
   },
   "auth": {
     "providers": [
-      "password",
       "anonymous"
     ]
   },
   "firestore": {
     "structure": [
       {
-        "path": "/courses/{courseId}",
-        "definition": {
-          "entityName": "Course",
-          "schema": {
-            "$ref": "#/backend/entities/Course"
-          },
-          "description": "Stores course information. Includes denormalized authorization fields for authorization independence.",
-          "params": [
-            {
-              "name": "courseId",
-              "description": "The unique identifier of the course."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/tutors/{tutorId}",
-        "definition": {
-          "entityName": "Tutor",
-          "schema": {
-            "$ref": "#/backend/entities/Tutor"
-          },
-          "description": "Stores tutor profiles.",
-          "params": [
-            {
-              "name": "tutorId",
-              "description": "The unique identifier of the tutor."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/students/{studentId}",
-        "definition": {
-          "entityName": "Student",
-          "schema": {
-            "$ref": "#/backend/entities/Student"
-          },
-          "description": "Stores student profiles.  Enforces path-based ownership.",
-          "params": [
-            {
-              "name": "studentId",
-              "description": "The unique identifier of the student."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/courses/{courseId}/feedbacks/{feedbackId}",
+        "path": "/feedbacks/{feedbackId}",
         "definition": {
           "entityName": "Feedback",
           "schema": {
             "$ref": "#/backend/entities/Feedback"
           },
-          "description": "Stores feedback for a specific course. Includes denormalized 'studentId' for authorization independence.",
+          "description": "Stores all student feedback entries.",
           "params": [
-            {
-              "name": "courseId",
-              "description": "The unique identifier of the course."
-            },
             {
               "name": "feedbackId",
               "description": "The unique identifier of the feedback entry."
@@ -211,7 +53,6 @@
           ]
         }
       }
-    ],
-    "reasoning": "The Firestore structure is designed to accommodate the entities and relationships described in the input, focusing on authorization independence, clarity, and scalability. User-owned data and collaborative data patterns have been applied where relevant.\n\n*   **Authorization Independence:** The `Feedback` subcollection under `/courses/{courseId}` includes the `studentId` field in each document. This denormalization strategy makes it possible to write security rules for feedback based solely on the feedback document and the current user's authentication state, without needing to read the parent `Course` or `Student` document.\n\n*   **Structural Segregation:** Each collection is designed to contain documents with a homogeneous security posture.\n\n*   **Access Modeling:**\n    *   The `/users/{userId}/` path pattern enforces path-based ownership for student-related data.\n    *   The `/courses/{courseId}/feedbacks/{feedbackId}` path creates a hierarchical structure.\n\n*   **QAPs (Rules Are Not Filters):** The structure enables secure list operations. For instance, listing feedbacks for a course is constrained by the security rules applied to `/courses/{courseId}/feedbacks`. Because `studentId` is stored in each `Feedback` document, rules can easily filter based on the requesting user's ID without needing complex queries or risking insecure data exposure.\n\nThe design prioritizes ease of understanding and maintainability for security rules."
+    ]
   }
 }

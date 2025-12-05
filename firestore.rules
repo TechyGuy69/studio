@@ -1,121 +1,15 @@
-/**
- * This ruleset enforces a security model for an educational platform, BioMyDream Academy.
- *
- * Core Philosophy:
- * The model balances public-read access for general information with strict user-ownership for personal data.
- * Public collections like courses and tutors are globally readable, but their modification is locked down,
- * assuming they are managed by administrators. Student profiles are private and can only be accessed and managed
- * by the owning student. Student feedback on courses is publicly readable but can only be created, updated,
- * or deleted by the student who authored it.
- *
- * Data Structure:
- * - /courses/{courseId}: Publicly accessible course information.
- * - /tutors/{tutorId}: Publicly accessible tutor profiles.
- * - /students/{studentId}: A student's private profile, where {studentId} MUST match the user's UID.
- * - /courses/{courseId}/feedbacks/{feedbackId}: A subcollection for student feedback related to a specific course.
- *
- * Key Security Decisions:
- * - Public vs. Private: /courses and /tutors are public-read. /students is private to the owner.
- * - Admin-Only Writes: Writes to /courses and /tutors are disabled entirely, as no admin role is defined.
- *   This is a secure default, preventing any client-side modification of core platform data.
- * - Feedback Ownership: A user can only write feedback for themselves (enforced by checking `studentId`),
- *   and can only modify feedback they have already written. However, all feedback is publicly readable.
- *
- * Denormalization for Authorization:
- * To ensure fast and secure authorization, the `feedbacks` documents contain a denormalized `studentId` field.
- * This allows rules to verify ownership for update and delete operations directly from the document itself,
- * without requiring slow and costly `get()` calls to other collections.
- *
- * Structural Segregation:
- * The separation of public data (/courses) and user-owned data (/students) into distinct top-level collections
- * provides a clear and secure boundary, simplifying rules and preventing accidental data leakage in list queries.
- */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Helper functions for reusable logic
-    /**
-     * Checks if the user is authenticated.
-     */
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    /**
-     * Checks if the currently authenticated user's UID matches the provided userId.
-     * This is the core function for verifying data ownership.
-     */
-    function isOwner(userId) {
-      return request.auth.uid == userId;
-    }
-
-    /**
-     * For state-changing operations (update, delete), this function ensures the
-     * user is the owner AND that the document actually exists before the operation.
-     */
-    function isExistingOwner(userId) {
-      return isOwner(userId) && resource != null;
-    }
-
-    /**
-     * @description Publicly readable course information. Writes are disabled for all users.
-     * @path /courses/{courseId}
-     * @allow (get) Anyone, signed in or not, can read a specific course.
-     * @deny (create) A signed-in user attempts to create a new course document.
-     * @principle Public read access for general data, with writes locked down for security.
-     */
-    match /courses/{courseId} {
-      allow get: if true;
+    // Allow public read access to feedback, but only allow creation.
+    // This allows anyone to submit feedback. For a more secure setup,
+    // you would require authentication (e.g., allow create: if request.auth != null;).
+    match /feedbacks/{feedbackId} {
+      allow read: if true;
       allow list: if true;
-      allow create: if false;
+      allow create: if true;
       allow update: if false;
       allow delete: if false;
-
-      /**
-       * @description Student feedback for a course. Publicly readable, but only the author can write/delete.
-       * @path /courses/{courseId}/feedbacks/{feedbackId}
-       * @allow (create) A signed-in student (auth.uid: 'student123') creates feedback with `studentId: 'student123'`.
-       * @deny (update) A student ('student456') tries to update feedback written by 'student123'.
-       * @principle Enforces document ownership for writes while allowing public consumption of the data.
-       */
-      match /feedbacks/{feedbackId} {
-        allow get: if true;
-        allow list: if true;
-        allow create: if isSignedIn() && request.resource.data.studentId == request.auth.uid && request.resource.data.courseId == courseId;
-        allow update: if isExistingOwner(resource.data.studentId) && request.resource.data.studentId == resource.data.studentId && request.resource.data.courseId == resource.data.courseId;
-        allow delete: if isExistingOwner(resource.data.studentId);
-      }
-    }
-
-    /**
-     * @description Publicly readable tutor profiles. Writes are disabled for all users.
-     * @path /tutors/{tutorId}
-     * @allow (list) An anonymous user lists all available tutors.
-     * @deny (update) Any user attempts to modify a tutor's qualifications.
-     * @principle Public read access for general data, with writes locked down for security.
-     */
-    match /tutors/{tutorId} {
-      allow get: if true;
-      allow list: if true;
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
-    }
-
-    /**
-     * @description A student's private profile data, only accessible to the student themselves.
-     * @path /students/{studentId}
-     * @allow (create) A new user (auth.uid: 'student123') creates their own profile at /students/student123.
-     * @deny (get) A signed-in student ('student456') tries to read the profile of 'student123'.
-     * @principle Restricts access to a user's own data tree using path-based ownership.
-     */
-    match /students/{studentId} {
-      allow get: if isOwner(studentId);
-      allow list: if isOwner(studentId);
-      allow create: if isOwner(studentId) && request.resource.data.id == studentId;
-      allow update: if isExistingOwner(studentId) && request.resource.data.id == resource.data.id;
-      allow delete: if isExistingOwner(studentId);
     }
   }
 }

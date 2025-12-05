@@ -1,4 +1,6 @@
 
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -16,6 +18,7 @@ import {
   Users,
   Presentation,
   Star,
+  MessageSquarePlus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +32,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ContactForm } from "@/components/contact-form";
+import { FeedbackForm } from "@/components/feedback-form";
+import { useCollection } from "@/firebase";
+import { collection, query, orderBy, limit } from "firebase/firestore";
+import { useFirestore, useMemoFirebase } from "@/firebase/provider";
 
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -122,26 +129,102 @@ const benefits = [
   },
 ];
 
-const testimonials = [
-  {
-    name: "Rohan Sharma",
-    class: "Class XII, CBSE",
-    quote: "Aditya sir's teaching methods are incredible. He makes complex biology topics so easy to understand. My board exam scores improved dramatically thanks to him!",
-    avatar: "RS",
-  },
-  {
-    name: "Priya Das",
-    class: "Class X, ICSE",
-    quote: "The weekly mock tests were a game-changer for me. I felt so much more confident during my exams. The study materials provided are also top-notch.",
-    avatar: "PD",
-  },
-  {
-    name: "Ankit Ghosh",
-    class: "Class XII, WBCHSE",
-    quote: "I used to struggle with biology, but after joining BioMyDream, it has become my favorite subject. The online classes are very interactive and engaging.",
-    avatar: "AG",
-  },
-];
+type Feedback = {
+  id: string;
+  name: string;
+  class: string;
+  quote: string;
+  rating: number;
+  createdAt: any;
+};
+
+function TestimonialsSection() {
+  const firestore = useFirestore();
+  const feedbacksQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'feedbacks'), orderBy('createdAt', 'desc'), limit(6));
+  }, [firestore]);
+
+  const { data: testimonials, isLoading } = useCollection<Feedback>(feedbacksQuery);
+
+  const getAvatarFallback = (name: string) => {
+    const parts = name.split(' ');
+    if (parts.length > 1) {
+      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  }
+
+  return (
+    <section id="testimonials" className="py-16 sm:py-24">
+      <div className="container">
+        <div className="text-center">
+          <h2 className="font-headline text-4xl md:text-5xl text-primary">What Our Students Say</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+            Real stories from students who have achieved their goals with us.
+          </p>
+        </div>
+        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {isLoading && [...Array(3)].map((_, index) => (
+            <Card key={index} className="flex flex-col">
+              <CardContent className="flex flex-1 flex-col justify-between p-6">
+                <div className="space-y-4">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-current" />
+                    ))}
+                  </div>
+                  <div className="w-full h-24 bg-muted animate-pulse rounded-md"></div>
+                </div>
+                <div className="mt-6 flex items-center gap-4">
+                  <Avatar>
+                    <AvatarFallback className="bg-muted animate-pulse"></AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <div className="w-24 h-4 bg-muted animate-pulse rounded-md"></div>
+                    <div className="w-32 h-3 mt-2 bg-muted animate-pulse rounded-md"></div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          {!isLoading && testimonials && testimonials.map((testimonial) => (
+            <Card key={testimonial.id} className="flex flex-col">
+              <CardContent className="flex flex-1 flex-col justify-between p-6">
+                <div>
+                  <div className="flex text-yellow-400">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-current" />
+                    ))}
+                    {[...Array(5 - testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 text-gray-300" />
+                    ))}
+                  </div>
+                  <blockquote className="mt-4 text-muted-foreground">
+                    &ldquo;{testimonial.quote}&rdquo;
+                  </blockquote>
+                </div>
+                <div className="mt-6 flex items-center gap-4">
+                  <Avatar>
+                    <AvatarFallback>{getAvatarFallback(testimonial.name)}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-semibold">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.class}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+         {!isLoading && (!testimonials || testimonials.length === 0) && (
+            <p className="text-center text-muted-foreground mt-12">Be the first to leave a feedback!</p>
+         )}
+      </div>
+    </section>
+  );
+}
+
 
 export default function Home() {
   return (
@@ -262,40 +345,20 @@ export default function Home() {
         </div>
       </section>
       
-      <section id="testimonials" className="py-16 sm:py-24">
+      <TestimonialsSection />
+
+      <section id="feedback" className="py-16 sm:py-24 bg-background">
         <div className="container">
           <div className="text-center">
-            <h2 className="font-headline text-4xl md:text-5xl text-primary">What Our Students Say</h2>
+            <h2 className="font-headline text-4xl md:text-5xl text-primary">Leave a Feedback</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-              Real stories from students who have achieved their goals with us.
+              Share your experience with us. Your feedback helps us grow.
             </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="flex flex-col">
-                <CardContent className="flex flex-1 flex-col justify-between p-6">
-                  <div>
-                    <div className="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 fill-current" />
-                      ))}
-                    </div>
-                    <blockquote className="mt-4 text-muted-foreground">
-                      &ldquo;{testimonial.quote}&rdquo;
-                    </blockquote>
-                  </div>
-                  <div className="mt-6 flex items-center gap-4">
-                    <Avatar>
-                      <AvatarFallback>{testimonial.avatar}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-semibold">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">{testimonial.class}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="mt-12 max-w-2xl mx-auto">
+            <Card className="p-6 sm:p-8 shadow-lg">
+              <FeedbackForm />
+            </Card>
           </div>
         </div>
       </section>

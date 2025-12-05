@@ -19,6 +19,7 @@ const navLinks = [
   { href: "#courses", label: "Courses" },
   { href: "#benefits", label: "Benefits" },
   { href: "#testimonials", label: "Testimonials" },
+  { href: "#feedback", label: "Feedback" },
 ];
 
 export function Header() {
