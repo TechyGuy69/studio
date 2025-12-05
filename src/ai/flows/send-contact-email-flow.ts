@@ -33,8 +33,10 @@ const sendContactEmailFlow = ai.defineFlow(
   },
   async (input) => {
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const recipientEmail = 'abanerje02@gmail.com';
-    const emailHtml = `
+    const adminEmail = 'abanerje02@gmail.com';
+
+    // Email to the administrator
+    const adminEmailHtml = `
       <h1>New Contact Form Submission</h1>
       <p><strong>Name:</strong> ${input.name}</p>
       <p><strong>Email:</strong> ${input.email}</p>
@@ -43,14 +45,42 @@ const sendContactEmailFlow = ai.defineFlow(
       <p>${input.message.replace(/\n/g, '<br>')}</p>
     `;
 
+    // Confirmation email to the user
+    const userEmailHtml = `
+      <h1>Thank You For Your Inquiry!</h1>
+      <p>Dear ${input.name},</p>
+      <p>We have successfully received your message and appreciate you reaching out to BioMyDream Academy.</p>
+      <p>We will review your inquiry and get back to you as soon as possible.</p>
+      <br/>
+      <p><strong>Here is a copy of your submission:</strong></p>
+      <hr/>
+      <p><strong>Subject:</strong> ${input.subject}</p>
+      <p><strong>Message:</strong></p>
+      <p>${input.message.replace(/\n/g, '<br>')}</p>
+      <hr/>
+      <br/>
+      <p>Best regards,</p>
+      <p>The BioMyDream Academy Team</p>
+    `;
+
     try {
-      await resend.emails.send({
-        from: 'BioMyDream <onboarding@resend.dev>',
-        to: recipientEmail,
-        subject: `New Contact Form Submission: ${input.subject}`,
-        html: emailHtml,
-        reply_to: input.email,
-      });
+      await Promise.all([
+        // Send email to admin
+        resend.emails.send({
+          from: 'BioMyDream <onboarding@resend.dev>',
+          to: adminEmail,
+          subject: `New Contact Form Submission: ${input.subject}`,
+          html: adminEmailHtml,
+          reply_to: input.email,
+        }),
+        // Send confirmation email to user
+        resend.emails.send({
+          from: 'BioMyDream <onboarding@resend.dev>',
+          to: input.email,
+          subject: 'Thank You for Your Inquiry with BioMyDream Academy',
+          html: userEmailHtml,
+        }),
+      ]);
 
       return { success: true };
     } catch (e: any) {
