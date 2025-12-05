@@ -37,8 +37,7 @@ const sendContactEmailFlow = ai.defineFlow(
       return { success: false, error: 'Server configuration error: Email service is not set up.' };
     }
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const adminEmail = 'banerjeeusnish2@gmail.com'; // Send to the registered Resend account
-    const studentEmail = input.email; // Send to the email from the form
+    const adminEmail = 'banerjeeusnish2@gmail.com'; 
 
     // Email to the administrator
     const adminEmailHtml = `
@@ -50,47 +49,18 @@ const sendContactEmailFlow = ai.defineFlow(
       <p>${input.message.replace(/\n/g, '<br>')}</p>
     `;
 
-    // Confirmation email to the user
-    const userEmailHtml = `
-      <h1>Thank You For Your Inquiry!</h1>
-      <p>Dear ${input.name},</p>
-      <p>We have successfully received your message and appreciate you reaching out to BioMyDream Academy.</p>
-      <p>We will review your inquiry and get back to you as soon as possible.</p>
-      <br/>
-      <p><strong>Here is a copy of your submission:</strong></p>
-      <hr/>
-      <p><strong>Subject:</strong> ${input.subject}</p>
-      <p><strong>Message:</strong></p>
-      <p>${input.message.replace(/\n/g, '<br>')}</p>
-      <hr/>
-      <br/>
-      <p>Best regards,</p>
-      <p>The BioMyDream Academy Team</p>
-    `;
-
     try {
-       // Send email to admin first
-      const adminEmailResponse = await resend.emails.send({
+       // Send email to admin
+      const { data, error } = await resend.emails.send({
         from: 'onboarding@resend.dev',
         to: adminEmail,
         subject: `New Contact Form Submission: ${input.subject}`,
         html: adminEmailHtml,
         reply_to: input.email,
       });
-      if (adminEmailResponse.error) {
-        throw new Error(`Failed to send admin email: ${adminEmailResponse.error.message}`);
-      }
 
-      // Send confirmation email to user
-      const userEmailResponse = await resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: studentEmail,
-        subject: 'Thank You for Your Inquiry with BioMyDream Academy',
-        html: userEmailHtml,
-      });
-
-      if (userEmailResponse.error) {
-        throw new Error(`Failed to send confirmation email to user: ${userEmailResponse.error.message}`);
+      if (error) {
+        throw new Error(`Failed to send admin email: ${error.message}`);
       }
 
       return { success: true };
