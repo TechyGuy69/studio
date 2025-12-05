@@ -33,7 +33,7 @@ const sendContactEmailFlow = ai.defineFlow(
   },
   async (input) => {
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const adminEmail = 'banerjeeusnish2@gmail.com';
+    const adminEmail = 'abanerje02@gmail.com';
 
     // Email to the administrator
     const adminEmailHtml = `
