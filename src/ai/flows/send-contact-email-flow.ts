@@ -79,7 +79,7 @@ const sendContactEmailFlow = ai.defineFlow(
       // Send confirmation email to user
       const userEmailResponse = await resend.emails.send({
         from: 'BioMyDream <onboarding@resend.dev>',
-        to: input.email,
+        to: adminEmail, // Sending to admin email for testing due to sandbox restrictions
         subject: 'Thank You for Your Inquiry with BioMyDream Academy',
         html: userEmailHtml,
       });
