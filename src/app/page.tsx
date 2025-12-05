@@ -189,7 +189,7 @@ function TestimonialsSection() {
             </Card>
           ))}
           {!isLoading && testimonials && testimonials.map((testimonial) => (
-            <Card key={testimonial.id} className="flex flex-col">
+            <Card key={testimonial.id} className="flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-xl">
               <CardContent className="flex flex-1 flex-col justify-between p-6">
                 <div>
                   <div className="flex text-yellow-400">
@@ -256,7 +256,7 @@ export default function Home() {
 
       <section id="about" className="py-16 sm:py-24 bg-background">
         <div className="container">
-          <Card className="overflow-hidden shadow-lg">
+          <Card className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-3">
               <div className="md:col-span-1 flex items-center justify-center p-8 bg-secondary/50">
                 {tutorImage && (
@@ -356,7 +356,7 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-12 max-w-2xl mx-auto">
-            <Card className="p-6 sm:p-8 shadow-lg">
+            <Card className="p-6 sm:p-8 shadow-lg transition-shadow duration-300 hover:shadow-xl">
               <FeedbackForm />
             </Card>
           </div>
@@ -373,7 +373,7 @@ export default function Home() {
           </div>
           <div className="mt-12 grid grid-cols-1 gap-x-12 gap-y-16 lg:grid-cols-5">
             <div className="lg:col-span-3">
-              <Card className="p-6 sm:p-8 shadow-lg">
+              <Card className="p-6 sm:p-8 shadow-lg transition-shadow duration-300 hover:shadow-xl">
                 <ContactForm />
               </Card>
             </div>
