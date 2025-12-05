@@ -64,23 +64,31 @@ const sendContactEmailFlow = ai.defineFlow(
     `;
 
     try {
-      await Promise.all([
-        // Send email to admin
-        resend.emails.send({
-          from: 'BioMyDream <onboarding@resend.dev>',
-          to: adminEmail,
-          subject: `New Contact Form Submission: ${input.subject}`,
-          html: adminEmailHtml,
-          reply_to: input.email,
-        }),
-        // Send confirmation email to user
-        resend.emails.send({
-          from: 'BioMyDream <onboarding@resend.dev>',
-          to: input.email,
-          subject: 'Thank You for Your Inquiry with BioMyDream Academy',
-          html: userEmailHtml,
-        }),
-      ]);
+      // Send email to admin
+      const adminEmailResponse = await resend.emails.send({
+        from: 'BioMyDream <onboarding@resend.dev>',
+        to: adminEmail,
+        subject: `New Contact Form Submission: ${input.subject}`,
+        html: adminEmailHtml,
+        reply_to: input.email,
+      });
+      if (adminEmailResponse.error) {
+        throw new Error(`Failed to send admin email: ${adminEmailResponse.error.message}`);
+      }
+
+      // Send confirmation email to user
+      const userEmailResponse = await resend.emails.send({
+        from: 'BioMyDream <onboarding@resend.dev>',
+        to: input.email,
+        subject: 'Thank You for Your Inquiry with BioMyDream Academy',
+        html: userEmailHtml,
+      });
+
+      if (userEmailResponse.error) {
+        // Even if user email fails, the admin one might have succeeded.
+        // We will still report an error, but the admin might have the lead.
+        throw new Error(`Failed to send confirmation email to user: ${userEmailResponse.error.message}`);
+      }
 
       return { success: true };
     } catch (e: any) {
