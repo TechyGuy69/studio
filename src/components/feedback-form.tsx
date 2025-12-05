@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -62,7 +63,7 @@ export function FeedbackForm() {
         createdAt: serverTimestamp(),
       };
       
-      const feedbacksCollection = collection(firestore, 'feedbacks');
+      const feedbacksCollection = collection(firestore, 'student-feedback');
       addDocumentNonBlocking(feedbacksCollection, feedbackData);
 
       toast({

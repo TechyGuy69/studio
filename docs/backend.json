@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "Feedback": {
@@ -38,7 +39,7 @@
   "firestore": {
     "structure": [
       {
-        "path": "/feedbacks/{feedbackId}",
+        "path": "/student-feedback/{feedbackId}",
         "definition": {
           "entityName": "Feedback",
           "schema": {

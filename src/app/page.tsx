@@ -142,7 +142,7 @@ function TestimonialsSection() {
   const firestore = useFirestore();
   const feedbacksQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    return query(collection(firestore, 'feedbacks'), orderBy('createdAt', 'desc'), limit(6));
+    return query(collection(firestore, 'student-feedback'), orderBy('createdAt', 'desc'), limit(6));
   }, [firestore]);
 
   const { data: testimonials, isLoading } = useCollection<Feedback>(feedbacksQuery);

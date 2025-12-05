@@ -1,10 +1,11 @@
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // Allow public read access to feedback, but only allow creation.
     // This allows anyone to submit feedback. For a more secure setup,
     // you would require authentication (e.g., allow create: if request.auth != null;).
-    match /feedbacks/{feedbackId} {
+    match /student-feedback/{feedbackId} {
       allow read: if true;
       allow list: if true;
       allow create: if true;
