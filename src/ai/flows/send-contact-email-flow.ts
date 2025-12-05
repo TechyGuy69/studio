@@ -24,41 +24,54 @@ const SendEmailOutputSchema = z.object({
 });
 export type SendEmailOutput = z.infer<typeof SendEmailOutputSchema>;
 
+const emailSender = ai.defineTool(
+  {
+    name: 'emailSender',
+    description: 'Send an email',
+    inputSchema: z.object({
+      to: z.string(),
+      subject: z.string(),
+      html: z.string(),
+    }),
+    outputSchema: z.void(),
+  },
+  async (input) => {
+    // This is a placeholder. In a real environment, you would use a service
+    // like Nodemailer, SendGrid, etc. to send the email.
+    // The Genkit environment will simulate this for demonstration.
+    console.log('--- Simulating Email Sending ---');
+    console.log(`To: ${input.to}`);
+    console.log(`Subject: ${input.subject}`);
+    console.log('Body (HTML):');
+    console.log(input.html);
+    console.log('-----------------------------');
+  }
+);
+
 const sendContactEmailFlow = ai.defineFlow(
   {
     name: 'sendContactEmailFlow',
     inputSchema: ContactFormInputSchema,
     outputSchema: SendEmailOutputSchema,
+    tools: [emailSender],
   },
   async (input) => {
-    console.log('Received contact form submission:');
-    console.log('Name:', input.name);
-    console.log('Email:', input.email);
-    console.log('Subject:', input.subject);
-    console.log('Message:', input.message);
-    
-    // In a real application, you would integrate with an email sending service
-    // like SendGrid, Mailgun, or AWS SES here.
-    // For this example, we'll just log to the console and simulate success.
-    
     const recipientEmail = 'abanerje02@gmail.com';
-    console.log(`Simulating sending email to ${recipientEmail}`);
+    const emailHtml = `
+      <h1>New Contact Form Submission</h1>
+      <p><strong>Name:</strong> ${input.name}</p>
+      <p><strong>Email:</strong> ${input.email}</p>
+      <p><strong>Subject:</strong> ${input.subject}</p>
+      <p><strong>Message:</strong></p>
+      <p>${input.message.replace(/\n/g, '<br>')}</p>
+    `;
 
     try {
-      // TODO: Replace with actual email sending logic.
-      // await sendEmail({
-      //   to: recipientEmail,
-      //   from: 'noreply@yourdomain.com', // A verified sender email
-      //   subject: `New Contact Form Submission: ${input.subject}`,
-      //   html: `
-      //     <h1>New Contact Form Submission</h1>
-      //     <p><strong>Name:</strong> ${input.name}</p>
-      //     <p><strong>Email:</strong> ${input.email}</p>
-      //     <p><strong>Subject:</strong> ${input.subject}</p>
-      //     <p><strong>Message:</strong></p>
-      //     <p>${input.message}</p>
-      //   `,
-      // });
+      await emailSender({
+        to: recipientEmail,
+        subject: `New Contact Form Submission: ${input.subject}`,
+        html: emailHtml,
+      });
 
       return { success: true };
     } catch (e: any) {
