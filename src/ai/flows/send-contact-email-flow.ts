@@ -32,8 +32,13 @@ const sendContactEmailFlow = ai.defineFlow(
     outputSchema: SendEmailOutputSchema,
   },
   async (input) => {
+    if (!process.env.RESEND_API_KEY) {
+      console.error('Email sending failed: RESEND_API_KEY is not set.');
+      return { success: false, error: 'Server configuration error: Email service is not set up.' };
+    }
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const adminEmail = 'abanerje02@gmail.com';
+    const adminEmail = 'banerjeeusnish2@gmail.com'; // Temporarily send to registered email
+    const studentEmail = 'banerjeeusnish2@gmail.com'; // Temporarily send to registered email
 
     // Email to the administrator
     const adminEmailHtml = `
@@ -54,7 +59,7 @@ const sendContactEmailFlow = ai.defineFlow(
       <br/>
       <p><strong>Here is a copy of your submission:</strong></p>
       <hr/>
-      <p><strong>Subject:</strong> ${input.subject}</p>p>
+      <p><strong>Subject:</strong> ${input.subject}</p>
       <p><strong>Message:</strong></p>
       <p>${input.message.replace(/\n/g, '<br>')}</p>
       <hr/>
@@ -66,7 +71,7 @@ const sendContactEmailFlow = ai.defineFlow(
     try {
       // Send email to admin
       const adminEmailResponse = await resend.emails.send({
-        from: 'BioMyDream <contact@biomydream.update.com>',
+        from: 'onboarding@resend.dev',
         to: adminEmail,
         subject: `New Contact Form Submission: ${input.subject}`,
         html: adminEmailHtml,
@@ -78,15 +83,13 @@ const sendContactEmailFlow = ai.defineFlow(
 
       // Send confirmation email to user
       const userEmailResponse = await resend.emails.send({
-        from: 'BioMyDream <contact@biomydream.update.com>',
-        to: input.email,
+        from: 'onboarding@resend.dev',
+        to: studentEmail,
         subject: 'Thank You for Your Inquiry with BioMyDream Academy',
         html: userEmailHtml,
       });
 
       if (userEmailResponse.error) {
-        // Even if user email fails, the admin one might have succeeded.
-        // We will still report an error, but the admin might have the lead.
         throw new Error(`Failed to send confirmation email to user: ${userEmailResponse.error.message}`);
       }
 
