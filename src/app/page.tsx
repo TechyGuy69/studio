@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from "next/image";
@@ -36,6 +37,7 @@ import { FeedbackForm } from "@/components/feedback-form";
 import { useCollection } from "@/firebase";
 import { collection, query, orderBy, limit } from "firebase/firestore";
 import { useFirestore, useMemoFirebase } from "@/firebase/provider";
+import { cn } from "@/lib/utils";
 
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -101,6 +103,7 @@ const courses = [
     grades: "Special Classes",
     subjects: ["Biology"],
     icon: Dna,
+    special: true,
   },
 ];
 
@@ -303,7 +306,13 @@ export default function Home() {
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {courses.map((course, index) => (
-              <Card key={index} className="flex flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+              <Card key={index} className={cn("flex flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl", {
+                "bg-primary/10 border-2 border-primary shadow-lg relative": course.special,
+                "lg:col-start-2": index === courses.length - 2 && courses.some(c => c.special) 
+              })}>
+                {course.special && (
+                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">Special</Badge>
+                )}
                 <CardHeader>
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <course.icon className="h-8 w-8" />
