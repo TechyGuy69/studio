@@ -326,30 +326,29 @@ export default function Home() {
                 </CardContent>
               </Card>
             ))}
+
+            {specialCourse && (
+              <div className="md:col-span-2 lg:col-span-2 lg:col-start-2">
+                <Card className="flex h-full flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-primary/10 border-2 border-primary shadow-lg relative">
+                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">Special</Badge>
+                    <CardHeader>
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <specialCourse.icon className="h-8 w-8" />
+                    </div>
+                    <CardTitle className="mt-4 font-headline text-2xl">{specialCourse.board}</CardTitle>
+                    <CardDescription className="text-base">{specialCourse.grades}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                    <div className="flex flex-wrap justify-center gap-2">
+                        {specialCourse.subjects.map((subject) => (
+                        <Badge key={subject} variant="outline">{subject}</Badge>
+                        ))}
+                    </div>
+                    </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
-          {specialCourse && (
-             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div className="md:col-span-2 lg:col-span-2 lg:col-start-2">
-                    <Card className="flex flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-primary/10 border-2 border-primary shadow-lg relative h-full">
-                        <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">Special</Badge>
-                        <CardHeader>
-                        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-                            <specialCourse.icon className="h-8 w-8" />
-                        </div>
-                        <CardTitle className="mt-4 font-headline text-2xl">{specialCourse.board}</CardTitle>
-                        <CardDescription className="text-base">{specialCourse.grades}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-grow">
-                        <div className="flex flex-wrap justify-center gap-2">
-                            {specialCourse.subjects.map((subject) => (
-                            <Badge key={subject} variant="outline">{subject}</Badge>
-                            ))}
-                        </div>
-                        </CardContent>
-                    </Card>
-                </div>
-            </div>
-          )}
         </div>
       </section>
 
