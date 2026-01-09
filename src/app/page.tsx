@@ -86,8 +86,8 @@ const courses = [
   },
   {
     board: "WBBSE",
-    grades: "IX - X",
-    subjects: ["Life Science"],
+    grades: "V - X",
+    subjects: ["Life Science", "Physical Science"],
     icon: BrainCircuit,
   },
   {
