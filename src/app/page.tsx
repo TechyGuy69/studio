@@ -100,7 +100,7 @@ const courses = [
   },
   {
     board: "NEET UG",
-    grades: "Special Classes",
+    grades: "Special classes for NEET aspirants",
     subjects: ["Biology"],
     icon: Dna,
     special: true,
