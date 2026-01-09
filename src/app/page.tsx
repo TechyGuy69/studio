@@ -96,6 +96,12 @@ const courses = [
     subjects: ["Biology"],
     icon: FlaskConical,
   },
+  {
+    board: "NEET UG",
+    grades: "Special Classes",
+    subjects: ["Biology"],
+    icon: Dna,
+  },
 ];
 
 const benefits = [
@@ -295,7 +301,7 @@ export default function Home() {
               Structured programs for various boards to ensure academic excellence.
             </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {courses.map((course, index) => (
               <Card key={index} className="flex flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl">
                 <CardHeader>
