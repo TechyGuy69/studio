@@ -307,7 +307,7 @@ export default function Home() {
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {courses.map((course, index) => (
               <Card key={index} className={cn("flex flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl", {
-                "bg-primary/10 border-2 border-primary shadow-lg relative lg:col-span-2 lg:col-start-2": course.special,
+                "bg-primary/10 border-2 border-primary shadow-lg relative md:col-span-2 lg:col-span-2 lg:col-start-2": course.special,
               })}>
                 {course.special && (
                     <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">Special</Badge>
