@@ -276,7 +276,7 @@ export default function Home() {
                 )}
               </div>
               <div className="md:col-span-2 p-8 md:p-12">
-                <h2 className="font-headline text-4xl text-primary">About the Tutor</h2>
+                <h2 className="font-headline text-4xl text-primary">About the Owner</h2>
                 <p className="mt-4 text-muted-foreground text-lg font-bold">Aditya Banerjee</p>
                 <p className="mt-2 text-muted-foreground">
                   An experienced and passionate Science Tutor dedicated to fostering a love for learning.
