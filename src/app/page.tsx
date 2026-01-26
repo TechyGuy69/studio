@@ -71,7 +71,7 @@ const courses = [
   {
     board: "CBSE",
     grades: "XI - XII",
-    subjects: ["Biology"],
+    subjects: ["Biology", "Math"],
     icon: Dna,
   },
   {
@@ -83,19 +83,19 @@ const courses = [
   {
     board: "ICSE",
     grades: "XI - XII",
-    subjects: ["Biology"],
+    subjects: ["Biology", "Math"],
     icon: Dna,
   },
   {
     board: "WBBSE",
     grades: "V - X",
-    subjects: ["Life Science", "Physical Science"],
+    subjects: ["Life Science", "Physical Science", "Math"],
     icon: BrainCircuit,
   },
   {
     board: "WBCHSE",
     grades: "XI - XII",
-    subjects: ["Biology"],
+    subjects: ["Biology", "Math"],
     icon: FlaskConical,
   },
   {
@@ -308,46 +308,49 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {regularCourses.map((course, index) => (
-              <Card key={index} className="flex flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-                <CardHeader>
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <course.icon className="h-8 w-8" />
-                  </div>
-                  <CardTitle className="mt-4 font-headline text-2xl">{course.board}</CardTitle>
-                  <CardDescription className="text-base">{course.grades}</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {course.subjects.map((subject) => (
-                      <Badge key={subject} variant="outline">{subject}</Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-
-            {specialCourse && (
-              <div className="md:col-span-2 lg:col-span-2 lg:col-start-2">
-                <Card className="flex h-full flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-primary/10 border-2 border-primary shadow-lg relative">
-                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">Special</Badge>
-                    <CardHeader>
-                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-                        <specialCourse.icon className="h-8 w-8" />
-                    </div>
-                    <CardTitle className="mt-4 font-headline text-2xl">{specialCourse.board}</CardTitle>
-                    <CardDescription className="text-base">{specialCourse.grades}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex-grow">
-                    <div className="flex flex-wrap justify-center gap-2">
-                        {specialCourse.subjects.map((subject) => (
-                        <Badge key={subject} variant="outline">{subject}</Badge>
-                        ))}
-                    </div>
-                    </CardContent>
-                </Card>
-              </div>
-            )}
+            {courses.map((course, index) => {
+                if (course.special) {
+                    return (
+                        <div key={index} className="md:col-span-2 lg:col-span-2 lg:col-start-2">
+                             <Card className="flex h-full flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-primary/10 border-2 border-primary shadow-lg relative">
+                                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">Special</Badge>
+                                <CardHeader>
+                                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                    <course.icon className="h-8 w-8" />
+                                </div>
+                                <CardTitle className="mt-4 font-headline text-2xl">{course.board}</CardTitle>
+                                <CardDescription className="text-base">{course.grades}</CardDescription>
+                                </CardHeader>
+                                <CardContent className="flex-grow">
+                                <div className="flex flex-wrap justify-center gap-2">
+                                    {course.subjects.map((subject) => (
+                                    <Badge key={subject} variant="outline">{subject}</Badge>
+                                    ))}
+                                </div>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    );
+                }
+                return (
+                    <Card key={index} className="flex flex-col text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                        <CardHeader>
+                        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                            <course.icon className="h-8 w-8" />
+                        </div>
+                        <CardTitle className="mt-4 font-headline text-2xl">{course.board}</CardTitle>
+                        <CardDescription className="text-base">{course.grades}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex-grow">
+                        <div className="flex flex-wrap justify-center gap-2">
+                            {course.subjects.map((subject) => (
+                            <Badge key={subject} variant="outline">{subject}</Badge>
+                            ))}
+                        </div>
+                        </CardContent>
+                    </Card>
+                );
+            })}
           </div>
         </div>
       </section>
